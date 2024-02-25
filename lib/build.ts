@@ -43,7 +43,7 @@ export class MainStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const AlarmTopic = new sns.fromTopicArn(this, 'AlarmTopic', topicArn)
+    const AlarmTopic = new sns.fromTopicArn(this, 'AlarmTopic', this.topicArn)
 
     const healthcheckalarm = new acw.Alarm(this, 'healthcheckalarm', {
       comparisonOperator: acw.ComparisonOperator.LESS_THAN_THRESHOLD,
