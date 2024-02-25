@@ -29,7 +29,16 @@ export class MainStack extends Stack {
     //   code: lambda.Code.fromAsset(path.join(__dirname,'../../layer/bin')),
     //   });
 
-    const healthchecklg = new logs.LogGroup(this, 'healthchecklg');
+    const healthchecklg = new logs.LogGroup(this, 'healthchecklg',{
+      removalPolicy: RemovalPolicy.DESTROY,
+      retention: logs.RetentionDays.THREE_MONTHS
+    });
+
+    const defaultlogstream = new logs.LogStream(this, 'defaultlogstream', {
+      logGroup: healthchecklg,
+      logStreamName: 'defaultlogstream',
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
 
     const s3Bucket = new s3.Bucket(this, 'healthcheck', {
       objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
