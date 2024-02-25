@@ -61,42 +61,42 @@ export class MainStack extends Stack {
     const AlarmTopic = sns.Topic.fromTopicArn(this, 'AlarmTopic', this.topicArn)
     healthcheckalarm.addAlarmAction(new cw_actions.SnsAction(AlarmTopic));
 
-    const s3Bucket = new s3.Bucket(this, 'healthcheck', {
-      objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      encryption: s3.BucketEncryption.S3_MANAGED,
-      enforceSSL: true,
-      versioned: false,
-    });
+    // const s3Bucket = new s3.Bucket(this, 'healthcheck', {
+    //   objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
+    //   blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+    //   encryption: s3.BucketEncryption.S3_MANAGED,
+    //   enforceSSL: true,
+    //   versioned: false,
+    // });
 
-    s3Bucket.grantRead(new iam.AccountRootPrincipal());
-    s3Bucket.grantPut(new iam.AccountRootPrincipal());
+    // s3Bucket.grantRead(new iam.AccountRootPrincipal());
+    // s3Bucket.grantPut(new iam.AccountRootPrincipal());
           
-    //Index function definition
-    const healthcheckfn = new lambda.Function(this, 'healthcheckfn', {
-      description: 'healthcheck function',
-      runtime: lambda.Runtime.PYTHON_3_8,
-      handler: 'main.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '../src')),
-      // layers: [layer0],
-      environment: {
-        APPNAME: process.env.ApplicationName!,
-        ENVNAME: process.env.Environment!, 
-      },
-      });
+    // //Index function definition
+    // const healthcheckfn = new lambda.Function(this, 'healthcheckfn', {
+    //   description: 'healthcheck function',
+    //   runtime: lambda.Runtime.PYTHON_3_8,
+    //   handler: 'main.handler',
+    //   code: lambda.Code.fromAsset(path.join(__dirname, '../src')),
+    //   // layers: [layer0],
+    //   environment: {
+    //     APPNAME: process.env.ApplicationName!,
+    //     ENVNAME: process.env.Environment!, 
+    //   },
+    //   });
     
-      healthcheckfn.addToRolePolicy(new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      resources: [
-        s3Bucket.arnForObjects("*"),
-        s3Bucket.bucketArn
-      ],
-      actions: [
-        's3:PutObject',
-        's3:GetObject',
-        's3:ListBucket'
-      ],
-      }));
+    //   healthcheckfn.addToRolePolicy(new iam.PolicyStatement({
+    //   effect: iam.Effect.ALLOW,
+    //   resources: [
+    //     s3Bucket.arnForObjects("*"),
+    //     s3Bucket.bucketArn
+    //   ],
+    //   actions: [
+    //     's3:PutObject',
+    //     's3:GetObject',
+    //     's3:ListBucket'
+    //   ],
+    //   }));
 
   //EndStack
   }}
