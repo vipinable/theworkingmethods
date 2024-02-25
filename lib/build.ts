@@ -55,7 +55,7 @@ export class MainStack extends Stack {
       metric: new acw.Metric({
         namespace: 'AWS/Logs',
         metricName: 'IncomingLogEvents',
-        period: 600,
+        period: Duration.seconds(600),
         statistic: 'Sum'
       })
     });
