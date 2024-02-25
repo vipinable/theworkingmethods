@@ -9,6 +9,7 @@ import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins'; 
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as logs from 'aws-cdk-lib/aws-logs';
+import * as acw from 'aws-cdk-lib/aws-cloudwatch';
 import * as path from 'path';
 export class MainStack extends Stack {
   public fnUrl: string
@@ -38,6 +39,20 @@ export class MainStack extends Stack {
       logGroup: healthchecklg,
       logStreamName: 'defaultlogstream',
       removalPolicy: RemovalPolicy.DESTROY,
+    });
+
+    const metric = acw.metric(this, 'metric', {
+      namespace: 'AWS/Logs',
+      metricName: IncomingLogEvents,
+      period: 600,
+      statistic: 'Sum'
+    })
+
+    const healthcheckalarm = new acw.Alarm(this, 'healthcheckalarm', {
+      comparisonOperator: acw.ComparisonOperator.LESS_THAN_THRESHOLD,
+      threshold: 6,
+      evaluationPeriods: 3,
+      metric: metric
     });
 
     const s3Bucket = new s3.Bucket(this, 'healthcheck', {
