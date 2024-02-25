@@ -4,6 +4,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as sns from 'aws-cdk-lib/aws-sns';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins'; 
@@ -13,6 +14,7 @@ import * as acw from 'aws-cdk-lib/aws-cloudwatch';
 import * as path from 'path';
 export class MainStack extends Stack {
   public fnUrl: string
+  public topicArn: string = `arn:aws:sns:us-east-1:${process.env.CDK_DEFAULT_ACCOUNT}:emailTopic`
 
   //BeginStackDefinition
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -40,6 +42,8 @@ export class MainStack extends Stack {
       logStreamName: 'defaultlogstream',
       removalPolicy: RemovalPolicy.DESTROY,
     });
+
+    const AlarmTopic = new sns.fromTopicArn(this, 'AlarmTopic', topicArn)
 
     const healthcheckalarm = new acw.Alarm(this, 'healthcheckalarm', {
       comparisonOperator: acw.ComparisonOperator.LESS_THAN_THRESHOLD,
