@@ -50,10 +50,10 @@ export class MainStack extends Stack {
         metricName: 'IncomingLogEvents',
         period: Duration.hours(6),
         statistic: 'Sum',
-        dimensions: [
+        dimensionsMap: [
           {
               "Name": "LogGroupName",
-              "Value": healthchecklg.LogGroupName
+              "Value": healthchecklg.logGroupName
           }
         ],
       })
