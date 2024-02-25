@@ -48,12 +48,12 @@ export class MainStack extends Stack {
       comparisonOperator: acw.ComparisonOperator.LESS_THAN_THRESHOLD,
       threshold: 6,
       evaluationPeriods: 3,
+      treatMissingData: acw.TreatMissingData.BREACHING,
       metric: new acw.Metric({
         namespace: 'AWS/Logs',
         metricName: 'IncomingLogEvents',
         period: Duration.hours(6),
         statistic: 'Sum',
-        treatMissingData: acw.TreatMissingData.BREACHING,
         dimensionsMap: { LogGroupName: healthchecklg.logGroupName },
       })
     });
