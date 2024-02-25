@@ -28,6 +28,8 @@ export class MainStack extends Stack {
     //   code: lambda.Code.fromAsset(path.join(__dirname,'../../layer/bin')),
     //   });
 
+    const healthchecklg = new logs.LogGroup(this, 'healthchecklg');
+
     const s3Bucket = new s3.Bucket(this, 'healthcheck', {
       objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
