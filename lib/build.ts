@@ -53,6 +53,7 @@ export class MainStack extends Stack {
         metricName: 'IncomingLogEvents',
         period: Duration.hours(6),
         statistic: 'Sum',
+        treatMissingData: acw.TreatMissingData.BREACHING,
         dimensionsMap: { LogGroupName: healthchecklg.logGroupName },
       })
     });
