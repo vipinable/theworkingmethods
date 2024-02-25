@@ -8,6 +8,7 @@ import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins'; 
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as logs from 'aws-cdk-lib/aws-logs';
 import * as path from 'path';
 export class MainStack extends Stack {
   public fnUrl: string
