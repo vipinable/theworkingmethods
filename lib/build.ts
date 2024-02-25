@@ -41,7 +41,7 @@ export class MainStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const metric = acw.metric(this, 'metric', {
+    const metric = acw.Metric(this, 'metric', {
       namespace: 'AWS/Logs',
       metricName: IncomingLogEvents,
       period: 600,
