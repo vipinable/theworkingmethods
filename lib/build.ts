@@ -41,18 +41,23 @@ export class MainStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const metric = new acw.Metric(this, 'metric', {
-      namespace: 'AWS/Logs',
-      metricName: IncomingLogEvents,
-      period: 600,
-      statistic: 'Sum'
-    })
+    // const metric = new acw.Metric(this, 'metric', {
+    //   namespace: 'AWS/Logs',
+    //   metricName: IncomingLogEvents,
+    //   period: 600,
+    //   statistic: 'Sum'
+    // })
 
     const healthcheckalarm = new acw.Alarm(this, 'healthcheckalarm', {
       comparisonOperator: acw.ComparisonOperator.LESS_THAN_THRESHOLD,
       threshold: 6,
       evaluationPeriods: 3,
-      metric: metric
+      metric: new acw.Metric({
+        namespace: 'AWS/Logs',
+        metricName: 'IncomingLogEvents',
+        period: 600,
+        statistic: 'Sum'
+      })
     });
 
     const s3Bucket = new s3.Bucket(this, 'healthcheck', {
