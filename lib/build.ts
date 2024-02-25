@@ -11,6 +11,7 @@ import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as acw from 'aws-cdk-lib/aws-cloudwatch';
+import * as cw_actions from 'aws-cdk-lib/aws-cloudwatch-actions';
 import * as path from 'path';
 export class MainStack extends Stack {
   public fnUrl: string
@@ -43,7 +44,7 @@ export class MainStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const AlarmTopic = new sns.fromTopicArn(this, 'AlarmTopic', this.topicArn)
+    const AlarmTopic = new sns.Topic.fromTopicArn(this, 'AlarmTopic', this.topicArn)
 
     const healthcheckalarm = new acw.Alarm(this, 'healthcheckalarm', {
       comparisonOperator: acw.ComparisonOperator.LESS_THAN_THRESHOLD,
