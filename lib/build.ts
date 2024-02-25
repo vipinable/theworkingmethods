@@ -44,8 +44,6 @@ export class MainStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const AlarmTopic = sns.Topic.fromTopicArn(this, 'AlarmTopic', this.topicArn)
-
     const healthcheckalarm = new acw.Alarm(this, 'healthcheckalarm', {
       comparisonOperator: acw.ComparisonOperator.LESS_THAN_THRESHOLD,
       threshold: 6,
@@ -58,6 +56,9 @@ export class MainStack extends Stack {
         dimensionsMap: { LogGroupName: healthchecklg.logGroupName },
       })
     });
+
+    const AlarmTopic = sns.Topic.fromTopicArn(this, 'AlarmTopic', this.topicArn)
+    healthcheckalarm.addAlarmAction(new cw_actions.SnsAction(AlarmTopic));
 
     const s3Bucket = new s3.Bucket(this, 'healthcheck', {
       objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
