@@ -52,7 +52,7 @@ export class MainStack extends Stack {
       },
       });
     
-      indexfn.addToRolePolicy(new iam.PolicyStatement({
+      healthcheckfn.addToRolePolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       resources: [
         s3Bucket.arnForObjects("*"),
