@@ -41,13 +41,6 @@ export class MainStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    // const metric = new acw.Metric(this, 'metric', {
-    //   namespace: 'AWS/Logs',
-    //   metricName: IncomingLogEvents,
-    //   period: 600,
-    //   statistic: 'Sum'
-    // })
-
     const healthcheckalarm = new acw.Alarm(this, 'healthcheckalarm', {
       comparisonOperator: acw.ComparisonOperator.LESS_THAN_THRESHOLD,
       threshold: 6,
@@ -55,8 +48,14 @@ export class MainStack extends Stack {
       metric: new acw.Metric({
         namespace: 'AWS/Logs',
         metricName: 'IncomingLogEvents',
-        period: Duration.seconds(600),
-        statistic: 'Sum'
+        period: Duration.hours(6),
+        statistic: 'Sum',
+        dimensions: [
+          {
+              "Name": "LogGroupName",
+              "Value": healthchecklg.LogGroupName
+          }
+        ],
       })
     });
 
