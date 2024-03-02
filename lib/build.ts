@@ -99,6 +99,8 @@ export class MainStack extends Stack {
       }));
 
     healthcheckalarm.addAlarmAction(new cw_actions.LambdaAction(emailfn));
+    healthcheckalarm.addOkAction(new cw_actions.LambdaAction(emailfn))
+    healthcheckalarm.addInsufficientDataAction(new cw_actions.LambdaAction(emailfn))
 
   //EndStack
   }}
