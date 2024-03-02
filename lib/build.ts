@@ -87,7 +87,7 @@ export class MainStack extends Stack {
     
       emailfn.addToRolePolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      resources: "*",
+      resources: ["*"],
       actions: [
         "CloudWatch:SetAlarmState",
         "secretsmanager:GetSecretValue",
