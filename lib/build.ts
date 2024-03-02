@@ -87,14 +87,14 @@ export class MainStack extends Stack {
     
       emailfn.addToRolePolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      resources: [
-        s3Bucket.arnForObjects("*"),
-        s3Bucket.bucketArn
-      ],
+      resources: "*",
       actions: [
-        's3:PutObject',
-        's3:GetObject',
-        's3:ListBucket'
+        "CloudWatch:SetAlarmState",
+        "secretsmanager:GetSecretValue",
+        "kms:GetPublicKey",
+        "kms:Decrypt",
+        "ses:SendEmail",
+        "ssm:GetParameter*"
       ],
       }));
 
