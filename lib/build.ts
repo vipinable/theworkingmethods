@@ -68,9 +68,6 @@ export class MainStack extends Stack {
     //   enforceSSL: true,
     //   versioned: false,
     // });
-
-    // s3Bucket.grantRead(new iam.AccountRootPrincipal());
-    // s3Bucket.grantPut(new iam.AccountRootPrincipal());
           
     //Index function definition
     const emailfn = new lambda.Function(this, 'healthcheckfn', {
